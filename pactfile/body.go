@@ -24,7 +24,7 @@ func (n ResponseNode) MarshalJSON() ([]byte, error) {
 // shoule decode into an implementation which can be matched, and marshalled to
 // an example
 func (n *ResponseNode) UnmarshalJSON(data []byte) error {
-	return json.Unmarshal(data, n.Raw)
+	return json.Unmarshal(data, &n.Raw)
 }
 
 // TODO: A third use for Matcher, which implements the same style as the
