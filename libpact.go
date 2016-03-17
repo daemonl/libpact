@@ -29,7 +29,7 @@ func call(cmethod *C.char, cjstring *C.char) *C.char {
 	resp := callInternal(method, jstring)
 	b, err := json.Marshal(resp)
 	if err != nil {
-		return C.CString(`{"status":500,msg:"marshall error"}`)
+		return C.CString(`{"status":500,error:"marshall error"}`)
 	}
 	return C.CString(string(b))
 }
@@ -37,8 +37,8 @@ func call(cmethod *C.char, cjstring *C.char) *C.char {
 func callInternal(method string, jstring string) api.FFIResponse {
 	if Pact == nil {
 		return api.FFIResponse{
-			Status:  500,
-			Message: "No Current Pactfile",
+			Status: 500,
+			Error:  "No Current Pactfile",
 		}
 	}
 
@@ -48,8 +48,8 @@ func callInternal(method string, jstring string) api.FFIResponse {
 		json.Unmarshal([]byte(jstring), &bind)
 		go mock.Serve(bind, Pact)
 		return api.FFIResponse{
-			Status:  200,
-			Message: "OK",
+			Status: 200,
+			Body:   "OK",
 		}
 	}
 

@@ -9,9 +9,9 @@ func (r *FFIRequest) ReadBodyInto(val interface{}) error {
 }
 
 type FFIResponse struct {
-	Status  int         `json:"status"`
-	Message string      `json:"msg,omitempty"`
-	Body    interface{} `json:"body,omitempty"`
+	Status int         `json:"status"`
+	Error  string      `json:"error,omitempty"`
+	Body   interface{} `json:"body,omitempty"`
 }
 
 func HandleFFI(req string, fn HandlerFunc) FFIResponse {
@@ -20,8 +20,8 @@ func HandleFFI(req string, fn HandlerFunc) FFIResponse {
 	resp, err := fn(&r)
 	if err != nil {
 		return FFIResponse{
-			Status:  500,
-			Message: err.Error(),
+			Status: 500,
+			Error:  err.Error(),
 		}
 	}
 	return FFIResponse{

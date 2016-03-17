@@ -29,8 +29,8 @@ func (api *Consumer) HandleCall(call string, data string) FFIResponse {
 	default:
 		fmt.Println(call)
 		return FFIResponse{
-			Status:  404,
-			Message: "Call not found",
+			Status: 404,
+			Error:  "Call not found",
 		}
 	}
 }
