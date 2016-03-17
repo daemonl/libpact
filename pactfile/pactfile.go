@@ -11,9 +11,14 @@ type Root struct {
 	Interactions []Interaction `json:"interactions"`
 }
 
+type RunInfo struct {
+	Count int `json:"count"`
+}
+
 // Interaction describes a request and expected response, given a provider
 // state
 type Interaction struct {
+	RunInfo       `json:"-"`
 	Description   string   `json:"description"`
 	ProviderState string   `json:"provider_state"`
 	Request       Request  `json:"request"`
