@@ -24,8 +24,8 @@ func Test404(t *testing.T) {
 	}
 	t.Logf("%d - (%s)", w.Code, strings.TrimSpace(w.Body.String()))
 
-	if w.Code != 404 {
-		t.Errorf("/nopath should give a 404, got %d", w.Code)
+	if w.Code != 500 {
+		t.Errorf("/nopath should give a 500, got %d", w.Code)
 	}
 }
 
