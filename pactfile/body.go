@@ -2,10 +2,12 @@ package pactfile
 
 import "encoding/json"
 
+// Node represents part of a JSON tree structure.
 type Node interface {
 	json.Marshaler
 	json.Unmarshaler
-	IsMatchedBy(interface{}) (bool, error)
+	//Mock(?) (interface{}, error)
+	//Diff(?) (?, error)
 }
 
 // ResponseBody is encoded directly to JSON,
@@ -14,21 +16,21 @@ type ResponseNode struct {
 	Raw interface{}
 }
 
-// MarshalJSON is used to provide an example implementation when mocking
-// any funky attributes should implement json.Encodable, giving an example.
+// MarshalJSON is used to save the pactfile to disk or present it through an API call.
+// Mocks are provided by the GetMock function, not here.
 func (n ResponseNode) MarshalJSON() ([]byte, error) {
 	return json.Marshal(n.Raw)
 }
 
-// UnmarshalJSON is used to read from the pactfile, so any funky attributes
-// shoule decode into an implementation which can be matched, and marshalled to
-// an example
+// UnmarshalJSON is used to load the pactfile from disk or an API call.
 func (n *ResponseNode) UnmarshalJSON(data []byte) error {
 	return json.Unmarshal(data, &n.Raw)
 }
 
-// TODO: A third use for Matcher, which implements the same style as the
-// standard JSON/XML libraries
-func (n *ResponseNode) IsMatchedBy(i interface{}) (bool, error) {
-	return true, nil
-}
+// Mock returns a tree of simple json encodable elements which represent a
+// mocked response
+//TODO func(n *ResponseNode) Mock(context?) (interface{}, error)
+
+// Diff returns a tree representing the difference between the node and the provided interface.
+// Diffs are given by example.
+// TODO func(n *ResponseNode) Diff(context?) Diff

@@ -5,6 +5,12 @@ import (
 	"net/http"
 )
 
+func New() *Root {
+	return &Root{
+		Interactions: []Interaction{},
+	}
+}
+
 // Root is the root pactfile.
 // TODO: All of it, and versioning.
 type Root struct {

@@ -1,5 +1,7 @@
 package api
 
+type HandlerFunc func(Request) (Response, error)
+
 // Request contains the minimum information for an API call, can be implemented
 // as an FFI Function call, or represent a HTTP Handler
 type Request interface {
@@ -33,7 +35,7 @@ func (resp *ObjectResponse) GetEncodable() interface{} {
 }
 
 // StringResponse is a basic response which has only a string as the body. e.g. "OK"
-func GetStringResponse(status int, msg string) Response {
+func BuildStringResponse(status int, msg string) Response {
 	return &ObjectResponse{
 		Object: msg,
 		Status: status,
@@ -41,9 +43,15 @@ func GetStringResponse(status int, msg string) Response {
 }
 
 // ObjectResponse is a basic response with an interface body.
-func GetObjectResponse(status int, msg interface{}) Response {
+func BuildObjectResponse(status int, msg interface{}) Response {
 	return &ObjectResponse{
 		Object: msg,
 		Status: status,
 	}
+}
+
+// NotFound implements HandlerFunc where no handlers are
+// found
+func NotFound(req Request) (Response, error) {
+	return BuildStringResponse(404, "No Such Call"), nil
 }

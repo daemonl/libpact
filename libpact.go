@@ -6,20 +6,20 @@ import (
 	"encoding/json"
 
 	"github.com/dius/libpact/api"
-	"github.com/dius/libpact/mock"
+	"github.com/dius/libpact/consumer"
 	"github.com/dius/libpact/pactfile"
 )
 
 var Pact *pactfile.Root
-var Consumer *api.Consumer
+var Consumer *consumer.Mux
+var Mux api.Mux
 
 func init() {
-	Pact = &pactfile.Root{
-		Interactions: []pactfile.Interaction{},
-	}
-	Consumer = &api.Consumer{
+	Pact = pactfile.New()
+	Consumer = &consumer.Mux{
 		Pact: Pact,
 	}
+	Mux = api.Mux(Consumer.HandlerByName)
 }
 
 //export call
@@ -42,18 +42,7 @@ func callInternal(method string, jstring string) api.FFIResponse {
 		}
 	}
 
-	switch method {
-	case "mock":
-		bind := ""
-		json.Unmarshal([]byte(jstring), &bind)
-		go mock.Serve(bind, Pact)
-		return api.FFIResponse{
-			Status: 200,
-			Body:   "OK",
-		}
-	}
-
-	return Consumer.HandleCall(method, jstring)
+	return Mux.HandleCall(method, jstring)
 }
 
 func main() {}

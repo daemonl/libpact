@@ -7,11 +7,7 @@ import (
 )
 
 func main() {
-
-	pf := &pactfile.Root{
-		Interactions: []pactfile.Interaction{},
-	}
+	pf := pactfile.New()
 	go mock.Serve(":8080", pf)
-
 	api.ConsumerServe(":5550", pf)
 }

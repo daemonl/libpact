@@ -6,13 +6,6 @@ import (
 	"net/http"
 )
 
-type HandlerFunc func(Request) (Response, error)
-
-type Handler struct {
-	GET  HandlerFunc
-	POST HandlerFunc
-}
-
 type HTTPRequest http.Request
 
 func (r *HTTPRequest) ReadBodyInto(val interface{}) error {
@@ -21,21 +14,7 @@ func (r *HTTPRequest) ReadBodyInto(val interface{}) error {
 	return err
 }
 
-func (h Handler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
-	var fn HandlerFunc
-
-	switch req.Method {
-	case "GET":
-		fn = h.GET
-	case "POST":
-		fn = h.POST
-	}
-
-	if fn == nil {
-		http.NotFound(rw, req)
-		return
-	}
-
+func (fn HandlerFunc) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	r := HTTPRequest(*req)
 	resp, err := fn(&r)
 	if err != nil {

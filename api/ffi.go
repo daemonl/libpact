@@ -14,8 +14,7 @@ type FFIResponse struct {
 	Body   interface{} `json:"body,omitempty"`
 }
 
-func HandleFFI(req string, fn HandlerFunc) FFIResponse {
-
+func (fn HandlerFunc) ServeFFI(req string) FFIResponse {
 	r := FFIRequest(req)
 	resp, err := fn(&r)
 	if err != nil {

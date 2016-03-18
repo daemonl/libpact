@@ -1,4 +1,4 @@
-package api
+package provider
 
 // NextInteraction from the provider should be called in a loop from the
 // provider until there are none left. It returns the metadata
