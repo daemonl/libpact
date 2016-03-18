@@ -1,0 +1,26 @@
+# MSC for Provider Process
+# http://www.mcternan.me.uk/mscgen/index.html
+msc {
+	hscale = "1";
+
+	l [label="LibPact"], a [label="Provider DSL"], p [label="Provider"];
+
+	---  [label = "start"];
+	a=>l [label = "POST /start"];
+	a<<l [label = "Provider State"];
+	a rbox p [label="Sets Provider State"];
+	a<<l [label = "Next Interaction ID"];
+	---  [label = "run"];
+	a=>l [label = "POST /run {interaction:...}"];
+	l=>p [label = "GET /asdf", linecolor="red"];
+	p>>l [label = "200 OK {stuff}", linecolor="red"];
+	l rbox l [label="Match"];
+	l>>a [label = "diff"];
+	|||;
+	---  [label = "When there are more interactions"];
+	a<<l [label = "Provider State"];
+	a<<l [label = "Next Interaction ID"];
+	|||;
+	---  [label = "When no more interactions exist"];
+	a<<l [label = "report"];
+}

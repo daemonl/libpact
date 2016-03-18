@@ -1,0 +1,188 @@
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1"
+ width="600px" height="460px"
+ viewBox="0 0 600 460"
+ xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"
+ stroke-width="1" text-rendering="geometricPrecision">
+<polygon fill="white" points="78,7 120,7 120,16 78,16"/>
+<text x="100" y="16" textLength="40" font-family="Helvetica" font-size="12" fill="black" text-anchor="middle">
+
+LibPact
+</text>
+<polygon fill="white" points="263,7 335,7 335,16 263,16"/>
+<text x="300" y="16" textLength="71" font-family="Helvetica" font-size="12" fill="black" text-anchor="middle">
+
+Provider DSL
+</text>
+<polygon fill="white" points="476,7 522,7 522,16 476,16"/>
+<text x="500" y="16" textLength="45" font-family="Helvetica" font-size="12" fill="black" text-anchor="middle">
+
+Provider
+</text>
+<line x1="100" y1="22" x2="100" y2="39" stroke="black"/>
+<line x1="300" y1="22" x2="300" y2="39" stroke="black"/>
+<line x1="500" y1="22" x2="500" y2="39" stroke="black"/>
+<line x1="50" y1="27" x2="550" y2="27" stroke="black" stroke-dasharray="2,2"/>
+<polygon fill="white" points="287,23 312,23 312,32 287,32"/>
+<text x="288" y="32" textLength="23" font-family="Helvetica" font-size="12" fill="black">
+start
+</text>
+<line x1="100" y1="39" x2="100" y2="67" stroke="black"/>
+<line x1="300" y1="39" x2="300" y2="67" stroke="black"/>
+<line x1="500" y1="39" x2="500" y2="67" stroke="black"/>
+<line x1="300" y1="50" x2="100" y2="50" stroke="black"/>
+<polygon fill="black" points="100,50 110,56 110,44"/>
+<polygon fill="white" points="167,40 232,40 232,49 167,49"/>
+<text x="168" y="49" textLength="63" font-family="Helvetica" font-size="12" fill="black">
+POST /start
+</text>
+<line x1="100" y1="67" x2="100" y2="95" stroke="black"/>
+<line x1="300" y1="67" x2="300" y2="95" stroke="black"/>
+<line x1="500" y1="67" x2="500" y2="95" stroke="black"/>
+<line x1="100" y1="78" x2="300" y2="78" stroke="black" stroke-dasharray="2,2"/>
+<polygon fill="black" points="300,78 290,84 290,72"/>
+<polygon fill="white" points="160,68 238,68 238,77 160,77"/>
+<text x="161" y="77" textLength="76" font-family="Helvetica" font-size="12" fill="black">
+Provider State
+</text>
+<line x1="100" y1="95" x2="100" y2="123" stroke="black"/>
+<line x1="300" y1="95" x2="300" y2="123" stroke="black"/>
+<line x1="500" y1="95" x2="500" y2="123" stroke="black"/>
+<polygon fill="white" points="214,95 586,95 586,117 214,117"/>
+<polygon fill="white" points="208,101 592,101 592,111 208,111"/>
+<circle fill="white" cx="214" cy="101" r="6"/>
+<circle fill="white" cx="586" cy="101" r="6"/>
+<circle fill="white" cx="214" cy="111" r="6"/>
+<circle fill="white" cx="586" cy="111" r="6"/>
+<line x1="214" y1="95" x2="586" y2="95" stroke="black"/>
+<line x1="214" y1="117" x2="586" y2="117" stroke="black"/>
+<line x1="208" y1="101" x2="208" y2="111" stroke="black"/>
+<line x1="592" y1="101" x2="592" y2="111" stroke="black"/>
+<path d="M 208 101 A6,6 0 0,1 214,95" stroke="black" fill="none"/><path d="M 586 95 A6,6 0 0,1 592,101" stroke="black" fill="none"/><path d="M 592 111 A6,6 0 0,1 586,117" stroke="black" fill="none"/><path d="M 214 117 A6,6 0 0,1 208,111" stroke="black" fill="none"/><polygon fill="white" points="347,102 452,102 452,111 347,111"/>
+<text x="348" y="111" textLength="103" font-family="Helvetica" font-size="12" fill="black">
+Sets Provider State
+</text>
+<line x1="100" y1="123" x2="100" y2="151" stroke="black"/>
+<line x1="300" y1="123" x2="300" y2="151" stroke="black"/>
+<line x1="500" y1="123" x2="500" y2="151" stroke="black"/>
+<line x1="100" y1="134" x2="300" y2="134" stroke="black" stroke-dasharray="2,2"/>
+<polygon fill="black" points="300,134 290,140 290,128"/>
+<polygon fill="white" points="149,124 250,124 250,133 149,133"/>
+<text x="150" y="133" textLength="99" font-family="Helvetica" font-size="12" fill="black">
+Next Interaction ID
+</text>
+<line x1="100" y1="151" x2="100" y2="168" stroke="black"/>
+<line x1="300" y1="151" x2="300" y2="168" stroke="black"/>
+<line x1="500" y1="151" x2="500" y2="168" stroke="black"/>
+<line x1="50" y1="156" x2="550" y2="156" stroke="black" stroke-dasharray="2,2"/>
+<polygon fill="white" points="290,152 309,152 309,161 290,161"/>
+<text x="291" y="161" textLength="17" font-family="Helvetica" font-size="12" fill="black">
+run
+</text>
+<line x1="100" y1="168" x2="100" y2="196" stroke="black"/>
+<line x1="300" y1="168" x2="300" y2="196" stroke="black"/>
+<line x1="500" y1="168" x2="500" y2="196" stroke="black"/>
+<line x1="300" y1="179" x2="100" y2="179" stroke="black"/>
+<polygon fill="black" points="100,179 110,185 110,173"/>
+<polygon fill="white" points="130,169 269,169 269,178 130,178"/>
+<text x="131" y="178" textLength="137" font-family="Helvetica" font-size="12" fill="black">
+POST /run {interaction:...}
+</text>
+<line x1="100" y1="196" x2="100" y2="224" stroke="black"/>
+<line x1="300" y1="196" x2="300" y2="224" stroke="black"/>
+<line x1="500" y1="196" x2="500" y2="224" stroke="black"/>
+<line x1="100" y1="207" x2="500" y2="207" stroke="red"/>
+<polygon fill="red" points="500,207 490,213 490,201"/>
+<polygon fill="white" points="271,197 327,197 327,206 271,206"/>
+<text x="272" y="206" textLength="54" font-family="Helvetica" font-size="12" fill="black">
+GET /asdf
+</text>
+<line x1="100" y1="224" x2="100" y2="252" stroke="black"/>
+<line x1="300" y1="224" x2="300" y2="252" stroke="black"/>
+<line x1="500" y1="224" x2="500" y2="252" stroke="black"/>
+<line x1="500" y1="235" x2="100" y2="235" stroke="red" stroke-dasharray="2,2"/>
+<polygon fill="red" points="100,235 110,241 110,229"/>
+<polygon fill="white" points="261,225 338,225 338,234 261,234"/>
+<text x="262" y="234" textLength="75" font-family="Helvetica" font-size="12" fill="black">
+200 OK {stuff}
+</text>
+<line x1="100" y1="252" x2="100" y2="280" stroke="black"/>
+<line x1="300" y1="252" x2="300" y2="280" stroke="black"/>
+<line x1="500" y1="252" x2="500" y2="280" stroke="black"/>
+<polygon fill="white" points="14,252 186,252 186,274 14,274"/>
+<polygon fill="white" points="8,258 192,258 192,268 8,268"/>
+<circle fill="white" cx="14" cy="258" r="6"/>
+<circle fill="white" cx="186" cy="258" r="6"/>
+<circle fill="white" cx="14" cy="268" r="6"/>
+<circle fill="white" cx="186" cy="268" r="6"/>
+<line x1="14" y1="252" x2="186" y2="252" stroke="black"/>
+<line x1="14" y1="274" x2="186" y2="274" stroke="black"/>
+<line x1="8" y1="258" x2="8" y2="268" stroke="black"/>
+<line x1="192" y1="258" x2="192" y2="268" stroke="black"/>
+<path d="M 8 258 A6,6 0 0,1 14,252" stroke="black" fill="none"/><path d="M 186 252 A6,6 0 0,1 192,258" stroke="black" fill="none"/><path d="M 192 268 A6,6 0 0,1 186,274" stroke="black" fill="none"/><path d="M 14 274 A6,6 0 0,1 8,268" stroke="black" fill="none"/><polygon fill="white" points="82,259 117,259 117,268 82,268"/>
+<text x="83" y="268" textLength="33" font-family="Helvetica" font-size="12" fill="black">
+Match
+</text>
+<line x1="100" y1="280" x2="100" y2="308" stroke="black"/>
+<line x1="300" y1="280" x2="300" y2="308" stroke="black"/>
+<line x1="500" y1="280" x2="500" y2="308" stroke="black"/>
+<line x1="100" y1="291" x2="300" y2="291" stroke="black" stroke-dasharray="2,2"/>
+<polygon fill="black" points="300,291 290,297 290,285"/>
+<polygon fill="white" points="190,281 208,281 208,290 190,290"/>
+<text x="191" y="290" textLength="16" font-family="Helvetica" font-size="12" fill="black">
+diff
+</text>
+<line x1="100" y1="308" x2="100" y2="325" stroke="black"/>
+<line x1="300" y1="308" x2="300" y2="325" stroke="black"/>
+<line x1="500" y1="308" x2="500" y2="325" stroke="black"/>
+<line x1="100" y1="325" x2="100" y2="342" stroke="black"/>
+<line x1="300" y1="325" x2="300" y2="342" stroke="black"/>
+<line x1="500" y1="325" x2="500" y2="342" stroke="black"/>
+<line x1="50" y1="330" x2="550" y2="330" stroke="black" stroke-dasharray="2,2"/>
+<polygon fill="white" points="209,326 389,326 389,335 209,335"/>
+<text x="210" y="335" textLength="178" font-family="Helvetica" font-size="12" fill="black">
+When there are more interactions
+</text>
+<line x1="100" y1="342" x2="100" y2="370" stroke="black"/>
+<line x1="300" y1="342" x2="300" y2="370" stroke="black"/>
+<line x1="500" y1="342" x2="500" y2="370" stroke="black"/>
+<line x1="100" y1="353" x2="300" y2="353" stroke="black" stroke-dasharray="2,2"/>
+<polygon fill="black" points="300,353 290,359 290,347"/>
+<polygon fill="white" points="160,343 238,343 238,352 160,352"/>
+<text x="161" y="352" textLength="76" font-family="Helvetica" font-size="12" fill="black">
+Provider State
+</text>
+<line x1="100" y1="370" x2="100" y2="398" stroke="black"/>
+<line x1="300" y1="370" x2="300" y2="398" stroke="black"/>
+<line x1="500" y1="370" x2="500" y2="398" stroke="black"/>
+<line x1="100" y1="381" x2="300" y2="381" stroke="black" stroke-dasharray="2,2"/>
+<polygon fill="black" points="300,381 290,387 290,375"/>
+<polygon fill="white" points="149,371 250,371 250,380 149,380"/>
+<text x="150" y="380" textLength="99" font-family="Helvetica" font-size="12" fill="black">
+Next Interaction ID
+</text>
+<line x1="100" y1="398" x2="100" y2="415" stroke="black"/>
+<line x1="300" y1="398" x2="300" y2="415" stroke="black"/>
+<line x1="500" y1="398" x2="500" y2="415" stroke="black"/>
+<line x1="100" y1="415" x2="100" y2="432" stroke="black"/>
+<line x1="300" y1="415" x2="300" y2="432" stroke="black"/>
+<line x1="500" y1="415" x2="500" y2="432" stroke="black"/>
+<line x1="50" y1="420" x2="550" y2="420" stroke="black" stroke-dasharray="2,2"/>
+<polygon fill="white" points="213,416 386,416 386,425 213,425"/>
+<text x="214" y="425" textLength="171" font-family="Helvetica" font-size="12" fill="black">
+When no more interactions exist
+</text>
+<line x1="100" y1="432" x2="100" y2="460" stroke="black"/>
+<line x1="300" y1="432" x2="300" y2="460" stroke="black"/>
+<line x1="500" y1="432" x2="500" y2="460" stroke="black"/>
+<line x1="100" y1="443" x2="300" y2="443" stroke="black" stroke-dasharray="2,2"/>
+<polygon fill="black" points="300,443 290,449 290,437"/>
+<polygon fill="white" points="183,433 216,433 216,442 183,442"/>
+<text x="184" y="442" textLength="31" font-family="Helvetica" font-size="12" fill="black">
+report
+</text>
+<line x1="100" y1="454" x2="100" y2="460" stroke="black"/>
+<line x1="300" y1="454" x2="300" y2="460" stroke="black"/>
+<line x1="500" y1="454" x2="500" y2="460" stroke="black"/>
+</svg>
