@@ -37,7 +37,7 @@ func (resp *ObjectResponse) GetEncodable() interface{} {
 // StringResponse is a basic response which has only a string as the body. e.g. "OK"
 func BuildStringResponse(status int, msg string) Response {
 	return &ObjectResponse{
-		Object: msg,
+		Object: map[string]interface{}{"msg": msg},
 		Status: status,
 	}
 }
