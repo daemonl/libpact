@@ -8,6 +8,7 @@ import (
 	"strings"
 )
 
+// Load reads a Root (pactfile) from the 'src', which could be file://, http://, https://
 func Load(src string) (*Root, error) {
 	parts := strings.SplitN(src, "://", 2)
 	if len(parts) != 2 {
@@ -25,6 +26,7 @@ func Load(src string) (*Root, error) {
 	}
 }
 
+// LoadFile reads a pactfile from the filesystem
 func LoadFile(filename string) (*Root, error) {
 	file, err := os.Open(filename)
 	if err != nil {
@@ -34,12 +36,15 @@ func LoadFile(filename string) (*Root, error) {
 	return LoadFromReader(file)
 }
 
+// LoadFromReader is a utility method for other loaders. Exported to allow
+// custom loaders
 func LoadFromReader(reader io.Reader) (*Root, error) {
 	r := &Root{}
 	err := json.NewDecoder(reader).Decode(r)
 	return r, err
 }
 
+// LoadHTTP will read from a url
 func LoadHTTP(url string) (*Root, error) {
 	return nil, fmt.Errorf("HTTP Loader Not Implemented")
 }

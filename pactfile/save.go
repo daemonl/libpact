@@ -8,6 +8,7 @@ import (
 	"strings"
 )
 
+// Save writes a Root (pactfile) to the 'dst', which could be file://, http://, https://
 func Save(dst string, root *Root) error {
 	parts := strings.SplitN(dst, "://", 2)
 	if len(parts) != 2 {
@@ -25,6 +26,7 @@ func Save(dst string, root *Root) error {
 	}
 }
 
+// SaveFile writes a pactfile to the filesystem
 func SaveFile(filename string, root *Root) error {
 	file, err := os.Open(filename)
 	if err != nil {
@@ -34,10 +36,12 @@ func SaveFile(filename string, root *Root) error {
 	return SaveToWriter(file, root)
 }
 
+// SaveToWriter is a utility method for other savers. Exported to allow custom savers
 func SaveToWriter(writer io.Writer, root *Root) error {
 	return json.NewEncoder(writer).Encode(root)
 }
 
+// SaveHTTP will write to a URL
 func SaveHTTP(url string, root *Root) error {
 	return fmt.Errorf("HTTP Loader Not Implemented")
 }

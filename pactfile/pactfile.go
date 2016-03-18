@@ -5,6 +5,7 @@ import (
 	"net/http"
 )
 
+// New creates an empty Root
 func New() *Root {
 	return &Root{
 		Interactions: []Interaction{},
@@ -17,6 +18,8 @@ type Root struct {
 	Interactions []Interaction `json:"interactions"`
 }
 
+// RunInfo should be removed - it is used to count the number of times an
+// interaction was run, but should instead be included in the mock server
 type RunInfo struct {
 	Count int `json:"count"`
 }
@@ -40,6 +43,8 @@ type Request struct {
 	Body    interface{} `json:"body"`
 }
 
+// MatchesRequest should implement the Pact Matcher on the Method, Path,
+// Querystring and Body of the request
 func (pact *Request) MatchesRequest(h *http.Request) bool {
 	if pact.Method != h.Method {
 		return false
@@ -59,6 +64,7 @@ type Response struct {
 	Body    ResponseNode `json:"body"`
 }
 
+// ServeHTTP serves a mock of the interaction to a consumer
 func (pact *Response) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	pact.Headers.Set(rw.Header())
 	rw.WriteHeader(pact.Status)
@@ -73,6 +79,7 @@ func (pact *Response) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 // per key.
 type Headers map[string]string
 
+// Set sets each header into a http.Header. Linters are fussy. This was obvious.
 func (pact Headers) Set(h http.Header) {
 	for k, v := range pact {
 		h.Add(k, v)

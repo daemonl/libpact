@@ -8,11 +8,13 @@ import (
 	"github.com/dius/libpact/pactfile"
 )
 
+// Mux wraps the consumer methods
 type Mux struct {
 	Pact          *pactfile.Root
 	CurrentServer *mock.Server
 }
 
+// HandlerByName matches a handler
 func (c *Mux) HandlerByName(name string) api.HandlerFunc {
 	switch name {
 	case "add_interaction", "POST /interaction":
@@ -57,6 +59,8 @@ func (c *Mux) Save(req api.Request) (api.Response, error) {
 	return api.BuildStringResponse(200, "OK"), nil
 }
 
+// StartMockServer stops the previous server, and starts a new one with an
+// empty Interaction list
 func (c *Mux) StartMockServer(req api.Request) (api.Response, error) {
 
 	if c.CurrentServer != nil {
@@ -85,7 +89,7 @@ func (c *Mux) StartMockServer(req api.Request) (api.Response, error) {
 	return api.BuildObjectResponse(200, config), nil
 }
 
-// CreateInteraction from the client adds a new interaction to the pactfile
+// AddInteraction from the client adds a new interaction to the pactfile
 func (c *Mux) AddInteraction(req api.Request) (api.Response, error) {
 	interaction := pactfile.Interaction{}
 	err := req.ReadBodyInto(&interaction)

@@ -8,6 +8,7 @@ import (
 	"github.com/dius/libpact/pactfile"
 )
 
+// Serve begins a closable server with an empty set of interactions
 func Serve(bind string) (*Server, error) {
 	l, err := net.Listen("tcp", bind)
 	if err != nil {
@@ -25,12 +26,14 @@ func Serve(bind string) (*Server, error) {
 	return server, nil
 }
 
+// Server is a closable wrapper around http.Server
 type Server struct {
 	net.Listener
 	Interactions []pactfile.Interaction
 	dead         chan struct{}
 }
 
+// Start begins the listener, and sends on a private channel when closed
 func (s *Server) Start() {
 	(&http.Server{
 		Handler: s,
@@ -39,11 +42,13 @@ func (s *Server) Start() {
 	s.dead <- struct{}{}
 }
 
+// Close closes the underlying listener, then waits for serve to return
 func (s *Server) Close() {
 	s.Listener.Close()
 	_ = <-s.dead
 }
 
+// AddInteraction includes this interaction in the server
 func (s *Server) AddInteraction(i pactfile.Interaction) {
 	s.Interactions = append(s.Interactions, i)
 }
@@ -56,10 +61,12 @@ func descriptionsOfInteractions(interactions []pactfile.Interaction) []string {
 	return desc
 }
 
-func (server *Server) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
+// ServeHTTP matches one and only one interaction per request, and uses it to
+// build a response
+func (s *Server) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 
 	matchedInteractions := []pactfile.Interaction{}
-	for _, interaction := range server.Interactions {
+	for _, interaction := range s.Interactions {
 		if interaction.Request.MatchesRequest(req) {
 			matchedInteractions = append(matchedInteractions, interaction)
 		}
@@ -78,13 +85,13 @@ func (server *Server) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		rw.WriteHeader(500)
 		json.NewEncoder(rw).Encode(map[string]interface{}{
 			"message":      "No interaction matched",
-			"interactions": descriptionsOfInteractions(server.Interactions),
+			"interactions": descriptionsOfInteractions(s.Interactions),
 		})
 		return
 	}
 	interaction := matchedInteractions[0]
 	interaction.Response.ServeHTTP(rw, req)
-	interaction.RunInfo.Count += 1
+	interaction.RunInfo.Count++
 
 	/*
 		Handling requests

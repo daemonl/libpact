@@ -10,7 +10,7 @@ type Node interface {
 	//Diff(?) (?, error)
 }
 
-// ResponseBody is encoded directly to JSON,
+// ResponseNode is encoded directly to JSON,
 // TODO: Implement Maps and Arrays, whatever is required for the matcher spec
 type ResponseNode struct {
 	Raw interface{}

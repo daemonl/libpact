@@ -10,23 +10,21 @@ import (
 	"github.com/dius/libpact/pactfile"
 )
 
-var Pact *pactfile.Root
-var Consumer *consumer.Mux
-var Mux api.Mux
+var mux api.Mux
 
 func init() {
-	Pact = pactfile.New()
-	Consumer = &consumer.Mux{
-		Pact: Pact,
+	pact := pactfile.New()
+	consumer := &consumer.Mux{
+		Pact: pact,
 	}
-	Mux = api.Mux(Consumer.HandlerByName)
+	mux = api.Mux(consumer.HandlerByName)
 }
 
 //export call
 func call(cmethod *C.char, cjstring *C.char) *C.char {
 	method := C.GoString(cmethod)
 	jstring := C.GoString(cjstring)
-	resp := Mux.HandleCall(method, jstring)
+	resp := mux.HandleCall(method, jstring)
 	b, err := json.Marshal(resp)
 	if err != nil {
 		return C.CString(`{"status":500,error:"marshall error"}`)
