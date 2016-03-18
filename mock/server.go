@@ -2,13 +2,50 @@ package mock
 
 import (
 	"encoding/json"
+	"net"
 	"net/http"
 
 	"github.com/dius/libpact/pactfile"
 )
 
+func Serve(bind string) (*Server, error) {
+	l, err := net.Listen("tcp", bind)
+	if err != nil {
+		return nil, err
+	}
+
+	server := &Server{
+		Listener:     l,
+		Interactions: []pactfile.Interaction{},
+		dead:         make(chan struct{}),
+	}
+
+	go server.Start()
+
+	return server, nil
+}
+
 type Server struct {
-	Pact *pactfile.Root
+	net.Listener
+	Interactions []pactfile.Interaction
+	dead         chan struct{}
+}
+
+func (s *Server) Start() {
+	(&http.Server{
+		Handler: s,
+	}).Serve(s.Listener)
+
+	s.dead <- struct{}{}
+}
+
+func (s *Server) Close() {
+	s.Listener.Close()
+	_ = <-s.dead
+}
+
+func (s *Server) AddInteraction(i pactfile.Interaction) {
+	s.Interactions = append(s.Interactions, i)
 }
 
 func descriptionsOfInteractions(interactions []pactfile.Interaction) []string {
@@ -19,9 +56,10 @@ func descriptionsOfInteractions(interactions []pactfile.Interaction) []string {
 	return desc
 }
 
-func (s *Server) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
+func (server *Server) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
+
 	matchedInteractions := []pactfile.Interaction{}
-	for _, interaction := range s.Pact.Interactions {
+	for _, interaction := range server.Interactions {
 		if interaction.Request.MatchesRequest(req) {
 			matchedInteractions = append(matchedInteractions, interaction)
 		}
@@ -40,7 +78,7 @@ func (s *Server) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		rw.WriteHeader(500)
 		json.NewEncoder(rw).Encode(map[string]interface{}{
 			"message":      "No interaction matched",
-			"interactions": descriptionsOfInteractions(s.Pact.Interactions),
+			"interactions": descriptionsOfInteractions(server.Interactions),
 		})
 		return
 	}
@@ -76,10 +114,4 @@ func (s *Server) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		https://github.com/pact-foundation/pact-specification/blob/master/implem
 		entation-guidelines/README.md#handling-requests
 	*/
-}
-
-func Serve(bind string, pact *pactfile.Root) error {
-	return http.ListenAndServe(bind, &Server{
-		Pact: pact,
-	})
 }

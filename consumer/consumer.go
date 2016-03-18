@@ -9,7 +9,8 @@ import (
 )
 
 type Mux struct {
-	Pact *pactfile.Root
+	Pact          *pactfile.Root
+	CurrentServer *mock.Server
 }
 
 func (c *Mux) HandlerByName(name string) api.HandlerFunc {
@@ -42,10 +43,25 @@ func (c *Mux) Report(req api.Request) (api.Response, error) {
 
 // Save saves and uploads the pactfile
 func (c *Mux) Save(req api.Request) (api.Response, error) {
-	return nil, fmt.Errorf("Not Implemented")
+	var config = &struct {
+		Dest string `json:"dst"`
+	}{}
+	err := req.ReadBodyInto(config)
+	if err != nil {
+		return nil, err
+	}
+	err = pactfile.Save(config.Dest, c.Pact)
+	if err != nil {
+		return nil, err
+	}
+	return api.BuildStringResponse(200, "OK"), nil
 }
 
 func (c *Mux) StartMockServer(req api.Request) (api.Response, error) {
+
+	if c.CurrentServer != nil {
+		c.CurrentServer.Close()
+	}
 
 	var config = &struct {
 		Bind string `json:"bind"`
@@ -61,11 +77,11 @@ func (c *Mux) StartMockServer(req api.Request) (api.Response, error) {
 		config.Bind = "localhost:8080"
 	}
 
-	//TODO: Duplicate servers?
-	err = mock.Serve(config.Bind, c.Pact)
+	c.CurrentServer, err = mock.Serve(config.Bind)
 	if err != nil {
 		return nil, err
 	}
+
 	return api.BuildObjectResponse(200, config), nil
 }
 
@@ -78,7 +94,7 @@ func (c *Mux) AddInteraction(req api.Request) (api.Response, error) {
 		return nil, err
 	}
 
-	//TODO: Validate
+	c.CurrentServer.Interactions = append(c.CurrentServer.Interactions, interaction)
 	c.Pact.Interactions = append(c.Pact.Interactions, interaction)
 
 	return api.BuildStringResponse(200, "OK"), nil
