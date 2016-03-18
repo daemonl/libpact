@@ -26,23 +26,12 @@ func init() {
 func call(cmethod *C.char, cjstring *C.char) *C.char {
 	method := C.GoString(cmethod)
 	jstring := C.GoString(cjstring)
-	resp := callInternal(method, jstring)
+	resp := Mux.HandleCall(method, jstring)
 	b, err := json.Marshal(resp)
 	if err != nil {
 		return C.CString(`{"status":500,error:"marshall error"}`)
 	}
 	return C.CString(string(b))
-}
-
-func callInternal(method string, jstring string) api.FFIResponse {
-	if Pact == nil {
-		return api.FFIResponse{
-			Status: 500,
-			Error:  "No Current Pactfile",
-		}
-	}
-
-	return Mux.HandleCall(method, jstring)
 }
 
 func main() {}
