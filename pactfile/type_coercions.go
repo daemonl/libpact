@@ -22,14 +22,16 @@ func CoerceNode(v interface{}) (Node, bool) {
 		float := Float(fv)
 		return &float, true
 
+	case nil:
+		return &Null{}, true
+
 	case map[string]interface{}:
 		m := Map(v)
 		return &m, true
 
-		/*
-			case []interface{}:
-				return
-		*/
+	case []interface{}:
+		a := Array(v)
+		return &a, true
 
 	default:
 		return nil, false

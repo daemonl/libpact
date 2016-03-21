@@ -46,12 +46,40 @@ type Request struct {
 // MatchesRequest should implement the Pact Matcher on the Method, Path,
 // Querystring and Body of the request
 func (pact *Request) MatchesRequest(h *http.Request) bool {
+	if h.Body != nil {
+		defer h.Body.Close()
+	}
 	if pact.Method != h.Method {
 		return false
 	}
 	if pact.Path != h.URL.Path {
 		return false
 	}
+	if pact.Body != nil {
+		if h.Body == nil {
+			panic("No Body")
+		}
+		nodeBody, ok := CoerceNode(pact.Body)
+		if !ok {
+			//TODO: FAIL
+			return false
+		}
+		var body interface{}
+		json.NewDecoder(h.Body).Decode(&body)
+
+		diff, err := nodeBody.Diff(0, body)
+		if err != nil {
+			panic(err)
+		}
+		if diff == nil {
+			panic(body)
+			return true
+		}
+		if !diff.Match {
+			return false
+		}
+	}
+
 	// TODO: How are Queries matched?
 	return true
 }

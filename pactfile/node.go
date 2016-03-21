@@ -58,7 +58,11 @@ func (f Float) Mock() (interface{}, error) {
 func (f Float) Diff(_ DiffFlag, impl interface{}) (*Diff, error) {
 	implFloat, ok := coerceFloat64(impl)
 	if !ok {
-		return nil, fmt.Errorf("Could not coerce float from %#v", impl)
+		return &Diff{
+			Match:  false,
+			Got:    impl,
+			Expect: &f,
+		}, nil
 	}
 	if implFloat != float64(f) {
 		return &Diff{
@@ -95,15 +99,28 @@ func (b Bool) Diff(_ DiffFlag, impl interface{}) (*Diff, error) {
 	}, nil
 }
 
+type Null struct{}
+
+func (n Null) Mock() (interface{}, error) {
+	return nil, nil
+}
+
+func (n Null) Diff(_ DiffFlag, impl interface{}) (*Diff, error) {
+	if impl != nil {
+		return &Diff{
+			Match:  false,
+			Expect: nil,
+			Got:    impl,
+		}, nil
+	}
+	return &Diff{
+		Match:  true,
+		Expect: nil,
+		Got:    nil,
+	}, nil
+}
+
 type Map map[string]interface{}
-
-func (m Map) MarshalJSON() ([]byte, error) {
-	return json.Marshal(map[string]interface{}(m))
-}
-
-func (m *Map) UnmarshalJSON(data []byte) error {
-	return json.Unmarshal(data, m)
-}
 
 func (m Map) Mock() (interface{}, error) {
 	return m, nil
@@ -126,7 +143,7 @@ func (m Map) Diff(flags DiffFlag, implRaw interface{}) (*Diff, error) {
 	for k, v := range m {
 		valNode, ok := CoerceNode(v)
 		if !ok {
-			return nil, fmt.Errorf("Could not coerce %t into a node")
+			return nil, fmt.Errorf("Could not coerce %T into a node", v)
 		}
 		diff, err := valNode.Diff(flags, impl[k])
 		if err != nil {
@@ -158,6 +175,52 @@ func (m Map) Diff(flags DiffFlag, implRaw interface{}) (*Diff, error) {
 }
 
 type Array []interface{}
+
+func (a Array) Mock() (interface{}, error) {
+	return a, nil
+}
+
+func (a Array) Diff(flags DiffFlag, implRaw interface{}) (*Diff, error) {
+
+	impl, ok := implRaw.([]interface{})
+	if !ok {
+		return &Diff{
+			Match:  false,
+			Got:    implRaw,
+			Expect: &a,
+		}, nil
+	}
+
+	match := true
+	expect := make([]interface{}, len(a), len(a))
+
+	for i, v := range a {
+		if len(impl)-1 < i {
+			match = false
+			expect[i] = v
+			continue
+		}
+		valNode, ok := CoerceNode(v)
+		if !ok {
+			return nil, fmt.Errorf("Could not coerce %t into a node")
+		}
+		diff, err := valNode.Diff(flags, impl[i])
+		if err != nil {
+			return nil, fmt.Errorf("%d: %s", i, err.Error())
+		}
+
+		if !diff.Match {
+			match = false
+		}
+		expect[i] = diff.Expect
+	}
+
+	return &Diff{
+		Match:  match,
+		Expect: expect,
+		Got:    impl,
+	}, nil
+}
 
 // ResponseNode is encoded directly to JSON,
 // TODO: Implement Maps and Arrays, whatever is required for the matcher spec

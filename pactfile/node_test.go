@@ -7,7 +7,7 @@ import (
 
 func TestDifference(t *testing.T) {
 	s := String("a")
-	diff, err := (&s).Diff("b")
+	diff, err := (&s).Diff(0, "b")
 	if err != nil {
 		t.Error(err)
 		return
@@ -38,7 +38,7 @@ func TestFundamentals(t *testing.T) {
 	*/
 
 	match := func(name string, n Node, impl interface{}) {
-		diff, err := n.Diff(impl)
+		diff, err := n.Diff(0, impl)
 		if err != nil {
 			t.Errorf("Error diff for %s: %s", name, err.Error())
 		} else if !diff.Match {
@@ -65,4 +65,7 @@ func TestFundamentals(t *testing.T) {
 		"k1": "v1",
 		"k2": "v2",
 	})
+
+	a := Array([]interface{}{"a", "b"})
+	match("Array<string>", &a, []interface{}{"a", "b"})
 }
